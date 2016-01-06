@@ -1,0 +1,6 @@
+logs/
+logs/*
+.DS_Store
+._.DS_Store
+views_c/*
+views_c
