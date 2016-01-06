@@ -12,9 +12,10 @@ class IndexCtr extends PiPageCtr {
 		$num = rand(10000,20000).rand(10000,20000).rand(10000,20000);
 		$res = $xz->encode($num);
 		echo $res;
+		echo '<br>';
 		$login = picom('login');
 		$res = $login->dologin(array('111'=>1241,'hihu'=>1241));
-		echo ($res);
+		print_r($res);
 
 		// $q = new Queue("hihu",'users',600);
 		// $q->push(array("queue"=>'真的'));
@@ -29,10 +30,10 @@ class IndexCtr extends PiPageCtr {
 	}
 
 	public function _before(){
-		echo "before index";
+		echo "<br>before index";
 	}
 	
 	public function _after(){
-		echo "after index";
+		echo "<br>after index";
 	}
 } 

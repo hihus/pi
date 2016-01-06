@@ -18,7 +18,7 @@ if(defined('COM_ROOT') && !defined('COM_CONF_PATH')){
 	define('COM_CONF_PATH',COM_ROOT.'conf'.DOT);
 }
 if(defined('PI_APP_ROOT') && !defined('APP_CONF_PATH')){
-	define('APP_CONF_PATH',PI_APP_ROOT.'conf'.DOT);
+	define('APP_CONF_PATH',PI_APP_ROOT.PI_APP_NAME.DOT.'conf'.DOT);
 }
 define('EXPORT_ROOT',COM_ROOT.'export'.DOT);
 

@@ -6,7 +6,7 @@
 
 //rpc内部调用或者网络错误的返回err_code标识
 if(!defined('INNER_ERR')) define('INNER_ERR','_pi_inner_err_code');
-if(!defined('INNER_RES_PACK')) define('INNER_RES_PACK','_pi_inner_err_code');
+if(!defined('INNER_RES_PACK')) define('INNER_RES_PACK','_pi_inner_content');
 
 //inner api sign
 Pi::set('global.innerapi_sign','kjsdgiu3kiusdf982o3sdfo034s');

@@ -1,19 +1,23 @@
 <?php
-define('APP_NAME','web');
-define('PI_ROOT',dirname(dirname(dirname(__FILE__))).'/pi/');
-define('APP_ROOT',dirname(dirname(__FILE__)).'/');
-define('COM_ROOT',APP_ROOT.'com/');
-define('APP_CTR_ROOT',APP_ROOT.APP_NAME.'/ctr/');
-define('LOG_PATH',dirname(dirname(dirname(__FILE__))).'/logs');
+//酌情去掉的配置
+define('TIMEZONE','Asia/Shanghai');
 define("__PI_EN_DEBUG",1);
+//必要配置
+define('PI_APP_NAME','web');
+define('PI_ROOT',dirname(dirname(dirname(__FILE__))).'/pi/');
+define('PI_APP_ROOT',dirname(dirname(__FILE__)).'/');
+define('COM_ROOT',PI_APP_ROOT.'com/');
+define('APP_CTR_ROOT',PI_APP_ROOT.PI_APP_NAME.'/ctr/');
+define('LOG_PATH','/tmp/');
 
-include(PI_ROOT.'Web.php');
+include(PI_ROOT.'app/Web.php');
 
 //web项目需要的框架配置
 Pi::set('global.logFile','web');
-//代码环境
-Pi::set('com_env','dev');
-Pi::set('app_env','dev');
+
+//代码环境 - 可选
+//Pi::set('com_env','dev');
+//Pi::set('app_env','dev');
 
 //自定义类可以重构提供的基础WebApp功能
 class PWebApp extends WebApp {}

@@ -4,7 +4,7 @@
  * @author wanghe (hihu@qq.com)
  **/
 
-include(PI_CORE.'Pi.php');
+include(PI_ROOT.'core/Pi.php');
 
 class WebApp extends PiApp {
 	public function __construct(){
@@ -37,7 +37,6 @@ class WebApp extends PiApp {
 		if(!Pi::inc($views)){
 			die('can not find the web view libs ');
 		}
-
 		$cls = Pcf::get('global.view_engine');
 		if(!class_exists($cls)){
 			die('can not init the template engine class');
