@@ -164,7 +164,7 @@ class Pcf {
 
 
 //加载基础配置
-Pi::inc(PI_ROOT.'Config.inc.php');
+Pi::inc(PI_ROOT.'core/Config.inc.php');
 
 //加载基础类库
 Pi::inc(PI_CORE.'CoreBase.php');
