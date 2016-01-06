@@ -17,9 +17,6 @@ abstract class PiBaseTask {
 	abstract public function execute($argv);
 }
 
-abstract class PiBaseTask {
-	abstract public function execute($argv);
-}
 
 class PiExport {
 	public $export_name = '';

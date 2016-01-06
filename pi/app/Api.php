@@ -4,7 +4,7 @@
  * @author wanghe (hihu@qq.com)
  **/
 
-include(PI_CORE.'Pi.php');
+include(PI_ROOT.'core/Pi.php');
 
 class ApiApp extends PiApp {
 
@@ -12,18 +12,28 @@ class ApiApp extends PiApp {
 	public $data_type = 'json';
 	
 	public function __construct($argv = array()){
+		
 		if(!defined("PI_APP_NAME")){
 			die("app.err please define PI_APP_NAME const \n");
 		}
+		
 		$this->mode = 'api';
 		$this->app_env = Pi::get('app_env','');
 		$this->com_env = Pi::get('com_env','');
 		$data_type = Pcf::get("global.data_type",'json');
+		
 		if(isset($this->data_types[$data_type])){
 			$this->data_type = $data_type;
 		}
-
+		
 		parent::__construct();
+
+		if(true === $this->debug && php_sapi_name() == 'cli'){
+			$mod_name = Pcf::get("global.mod",'mod');
+			$func_name = Pcf::get("global.func",'func');
+			Comm::setReq($mod_name,$argv[1]);
+			Comm::setReq($func_name,$argv[2]);
+		}
 	}
 
 	protected function begin(){

@@ -4,7 +4,7 @@
  * @author wanghe (hihu@qq.com)
  **/
 
-include(PI_CORE.'Pi.php');
+include(PI_ROOT.'core/Pi.php');
 
 class TaskApp extends PiApp {
 	public $task_name = '';
@@ -14,7 +14,7 @@ class TaskApp extends PiApp {
 		if(!defined("PI_APP_NAME")){
 			die('please define PI_APP_NAME const');
 		}
-		define('TASK_PATH',PI_APP_ROOT.PI_APP_NAME.DOT);
+		define('TASK_PATH',PI_APP_ROOT.PI_APP_NAME.DOT.'logic'.DOT);
 
 		$this->mode = 'task';
 		$this->app_env = Pi::get('app_env','');

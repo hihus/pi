@@ -4,10 +4,23 @@
  * @author wanghe (hihu@qq.com)
  **/
 
-//定义框架位置
-if(!defined("PI_ROOT")) define("PI_ROOT",dirname(dirname(__FILE__)).'/');
 //定义分隔符
 define('DOT',DIRECTORY_SEPARATOR);
+//定义框架位置
+if(!defined('PI_ROOT')) define('PI_ROOT',dirname(dirname(__FILE__)).'/');
+define('PI_CORE',PI_ROOT.'core'.DOT);
+define('PI_UTIL',PI_ROOT.'util'.DOT);
+define('PI_PIPE',PI_ROOT.'pipe'.DOT);
+define('PIPE_HELPER',PI_PIPE.'helper'.DOT);
+//配置文件加载位置和项目加载位置
+if(!defined('COM_ROOT')) die('you must define COM_ROOT first~');
+if(defined('COM_ROOT') && !defined('COM_CONF_PATH')){
+	define('COM_CONF_PATH',COM_ROOT.'conf'.DOT);
+}
+if(defined('PI_APP_ROOT') && !defined('APP_CONF_PATH')){
+	define('APP_CONF_PATH',PI_APP_ROOT.'conf'.DOT);
+}
+define('EXPORT_ROOT',COM_ROOT.'export'.DOT);
 
 //工具类
 class Pi {
@@ -115,7 +128,7 @@ function pi_call_method($class,$method,$args = array(),&$err = 0){
 }
 
 //加载基础配置
-Pi::inc(PI_ROOT.'Config.inc.php');
+Pi::inc(PI_CORE.'Config.inc.php');
 
 //加载基础类库
 Pi::inc(PI_CORE.'CoreBase.php');
@@ -133,13 +146,7 @@ class PipeExecutor {
 		//pipe 数组格式 path => class_name
 		//加载默认的处理管道
 		if($pipes == null){
-			$pipes = array();
-			$input = Pi::get('DefaultInputPipe');
-			$output = Pi::get('DefaultOutputPipe');
-			$pipes = array(
-						$input => PI_PIPE.$input.'.php',
-						$output => PI_PIPE.$output.'.php'
-					);
+			return false;
 		}else{
 			if(is_string($pipes)){
 				$pipes = array($pipes);
@@ -266,6 +273,7 @@ class PiApp{
 		if(!is_dir(LOG_PATH)){
 			die('pi.err can not find the log path');
 		}
+
 		if(!Pi::inc(Pi::get('LogLib'))){
 			die('pi.err can not read the Log Lib');
 		}
@@ -354,7 +362,6 @@ class PiApp{
 
 	protected function initPipes(){
 		$this->pipe = new PipeExecutor($this);
-		$this->pipe->loadPipes();
 	}
 
 	protected function initLoader(){

@@ -1,0 +1,2 @@
+hello smarty
+<{$hihu}>

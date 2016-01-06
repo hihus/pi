@@ -12,11 +12,13 @@ class PiApiRouter {
 	}
 
 	public function dispatch(){
+		if(!$this->checkSign()){
+			$this->output('api.err sign',7099);
+		}
 		$mod_name = Pcf::get("global.mod",'mod');
 		$func_name = Pcf::get("global.func",'func');
 		$mod_seg = Pcf::get("global.mod_seg",'/');
 		$api_path = Pcf::get("global.base_path",PI_APP_ROOT.PI_APP_NAME.DOT.'logic'.DOT);
-
 		$mod = Comm::Req($mod_name);
 		$func = Comm::Req($func_name);
 		$mod = explode($mod_seg,$mod);
@@ -66,12 +68,17 @@ class PiApiRouter {
 		$this->output($res);
 	}
 
-	public function output($info,$err_code = false){
+	protected function output($info,$err_code = false){
 		if($err_code === false){
 			echo json_encode(array('res'=>$info));
 		}else{
 			//和Api.php的output错误输出格式一致
 			echo json_encode(array('msg'=>$info,INNER_ERR=>$err_code));
 		}
+		exit;
+	}
+	//api 验证逻辑，可以根据项目需要实现
+	private function checkSign(){
+		return true;
 	}
 }

@@ -11,9 +11,7 @@ class ApiHttpRouterPipe implements PiIpipe {
 		$this->app = $app;
  		$router = Pcf::get('global.router_file','ApiRouter.php');
 		$router_class = Pcf::get('global.router_class','PiApiRouter');
-		if(is_readable(PI_CORE.$router)){
-			Pi::inc(PIPE_HELPER.$router);
-		}else{
+		if(!Pi::inc(PIPE_HELPER.$router)){
 			throw new Exception('api.router can not find the api router : '.$router,1030);
 		}
 		if(class_exists($router_class)){

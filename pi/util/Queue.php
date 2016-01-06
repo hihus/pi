@@ -16,7 +16,7 @@ class Queue {
 	public function getInstance($driver,$conf_name){
 		$instance = null;
 		if($driver == 'memcache'){
-			$instance = PIMem::get($conf_name);
+			$instance = PiMc::get($conf_name);
 		}else if($driver == 'mongo'){
 			$instance = null;
 		}else{
