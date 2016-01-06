@@ -64,7 +64,7 @@ class PiApiRouter {
 		if (!is_callable(array($cls,$func))){
 			$this->output('api.err api class:'.$class.' can not call method:'.$func,1011);
 		}
-		$res = pi_call_method($cls,$func);
+		$res = Pi::piCallMethod($cls,$func);
 		$this->output($res);
 	}
 

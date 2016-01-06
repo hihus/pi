@@ -13,7 +13,7 @@ class IndexCtr extends PiPageCtr {
 		$res = $xz->encode($num);
 		echo $res;
 		echo '<br>';
-		$login = picom('login');
+		$login = Pi::com('login');
 		$res = $login->dologin(array('111'=>1241,'hihu'=>1241));
 		print_r($res);
 

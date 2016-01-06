@@ -184,22 +184,22 @@ class PiRouteDispatcher {
 		}
 
 		try{
-			pi_call_method($class,'_p_before');
-			pi_call_method($class,'initTmpl');
-			pi_call_method($class,'setRouter',array($this));
+			Pi::piCallMethod($class,'_p_before');
+			Pi::piCallMethod($class,'initTmpl');
+			Pi::piCallMethod($class,'setRouter',array($this));
 			if($this->class_pre === 'Ajax'){
-				pi_call_method($class,'setAjax',array(true));
+				Pi::piCallMethod($class,'setAjax',array(true));
 			}
-			pi_call_method($class,'_before');
+			Pi::piCallMethod($class,'_before');
 			if(substr($this->func,0,1) == '_' || !is_callable(array($class,$this->func))){
 				throw new Exception('router.err not '.$cls.' can not call : '.$this->func,1025);
 			}
-			pi_call_method($class,$this->func);
-			pi_call_method($class,'_after');
-			pi_call_method($class,'_p_after');
+			Pi::piCallMethod($class,$this->func);
+			Pi::piCallMethod($class,'_after');
+			Pi::piCallMethod($class,'_p_after');
 		}catch(Exception $ex){
-			pi_call_method($class,'_after');
-			pi_call_method($class,'_p_after');
+			Pi::piCallMethod($class,'_after');
+			Pi::piCallMethod($class,'_p_after');
 			throw $ex;
 		}
 	}

@@ -3,24 +3,8 @@
  * @file Pi.php
  * @author wanghe (hihu@qq.com)
  **/
-
-//定义分隔符
-define('DOT',DIRECTORY_SEPARATOR);
-//定义框架位置
-if(!defined('PI_ROOT')) define('PI_ROOT',dirname(dirname(__FILE__)).'/');
-define('PI_CORE',PI_ROOT.'core'.DOT);
-define('PI_UTIL',PI_ROOT.'util'.DOT);
-define('PI_PIPE',PI_ROOT.'pipe'.DOT);
-define('PIPE_HELPER',PI_PIPE.'helper'.DOT);
-//配置文件加载位置和项目加载位置
+if(!defined('PI_ROOT'))  die('you must define the pi root first');
 if(!defined('COM_ROOT')) die('you must define COM_ROOT first~');
-if(defined('COM_ROOT') && !defined('COM_CONF_PATH')){
-	define('COM_CONF_PATH',COM_ROOT.'conf'.DOT);
-}
-if(defined('PI_APP_ROOT') && !defined('APP_CONF_PATH')){
-	define('APP_CONF_PATH',PI_APP_ROOT.PI_APP_NAME.DOT.'conf'.DOT);
-}
-define('EXPORT_ROOT',COM_ROOT.'export'.DOT);
 
 //工具类
 class Pi {
@@ -42,6 +26,72 @@ class Pi {
 		}
 		return false;
 	}
+	//利用反射调用指定类的公用方法
+	static function piCallMethod($class,$method,$args = array(),&$err = 0){
+		if (is_callable(array($class,$method))){
+	        $reflection = new ReflectionMethod($class,$method);
+	        $argnum = $reflection->getNumberOfParameters();
+	        if ($argnum > count($args)) {
+	               $err = 1;
+	               return false;
+	        }
+	        //公共方法才允许被调用
+	        return $reflection->invokeArgs($class,$args);
+	    }
+	    $err = 2;
+	    return false;
+	}
+	//加载com模块的函数
+	static function com($mod,$add = '',$is_server = false){
+		$mod = strtolower($mod);
+		$add = strtolower($add);
+		//加载一次
+		static $loaded_mod = array();
+		if(isset($loaded_mod[$mod.$add])){
+			return $loaded_mod[$mod.$add];
+		}
+		//先检测有没有远程配置，如果没有直接加载类，提高效率
+		$conf_add = ($add == '') ? '' : '#'.$add;
+		$conf_name = 'proxy.'.strtolower($mod).$conf_add;
+		$proxy_conf = self::get($conf_name,array());
+		if($is_server === false && !empty($proxy_conf)){
+			//proxy代理类,根据更详细的配置选择哪个接口走远程
+			$class = new PiProxy($mod,$add,$proxy_conf);
+			$loaded_mod[$mod.$add] = $class;
+		}else{
+			//直接加载本地逻辑接口
+			$loaded_mod[$mod.$add] = self::pi_load_export_file($mod,$add);
+		}
+		return $loaded_mod[$mod.$add];
+	}
+
+	//加载export文件的公用方法
+	static function pi_load_export_file($mod,$add){
+		if($add == ''){
+			$cls = ucfirst($mod).'Export';
+			$file = EXPORT_ROOT.$mod.DOT.$cls.'.php';
+		}else if(is_string($add)){
+			$cls = ucfirst($mod).ucfirst($add).'Export';
+			$file = EXPORT_ROOT.$mod.DOT.$cls.'.php';
+		}else{
+			throw new Exception('picom can not find mod:'.$mod,',add:'.$add,1001);
+		}
+
+		if(!is_readable($file) || !self::inc($file)){
+			throw new Exception('can not read mod file: '.$file.' from picom func',1004);
+		}
+
+		if(class_exists($cls)){
+			$class = new $cls();
+			if(!is_subclass_of($class,'PiExport')){
+				throw new Exception('the class '.$cls.' is not the subclass of Export',1002);
+			}
+			$class->export_name = $cls;
+			return $class;
+		}else{
+			throw new Exception('can not find picom class '.$cls.' from '.$file,1003);
+		}
+	}
 	//得到配置,配置加载请自定义COM_CONF_PATH目录
 	static function get($key,$default=null){
 		if(isset(self::$saConfData[$key])){
@@ -53,10 +103,10 @@ class Pi {
 			if(!empty($file)){
 				array_pop($file);
 				$file_name = array_pop($file);
-				$file = (count($file) == 0) ? '' : implode(DOT,$file).DOT;
+				$file = (count($file) == 0) ? '' : implode('/',$file).'/';
 				$env = self::get('com_env','');
 				if($env != '' && is_readable($file)){
-					$file = COM_CONF_PATH.$env.DOT.$file.$file_name.'.inc.php';
+					$file = COM_CONF_PATH.$env.'/'.$file.$file_name.'.inc.php';
 				}else{
 					$file = COM_CONF_PATH.$file.$file_name.'.inc.php';
 				}
@@ -90,10 +140,10 @@ class Pcf {
 			if(!empty($file)){
 				array_pop($file);
 				$file_name = array_pop($file);
-				$file = (count($file) == 0) ? '' : implode(DOT,$file).DOT;
+				$file = (count($file) == 0) ? '' : implode('/',$file).'/';
 				$env = self::get('app_env','');
 				if($env != '' && is_readable($file)){
-					$file = APP_CONF_PATH.$env.DOT.$file.$file_name.'.inc.php';
+					$file = APP_CONF_PATH.$env.'/'.$file.$file_name.'.inc.php';
 				}else{
 					$file = APP_CONF_PATH.$file.$file_name.'.inc.php';
 				}
@@ -111,24 +161,10 @@ class Pcf {
 	static function delItem($key){if(self::has($key)){unset(self::$saConfData[$key]); } } 
 }
 
-//利用反射调用指定类的公用方法
-function pi_call_method($class,$method,$args = array(),&$err = 0){
-	if (is_callable(array($class,$method))){
-        $reflection = new ReflectionMethod($class,$method);
-        $argnum = $reflection->getNumberOfParameters();
-        if ($argnum > count($args)) {
-               $err = 1;
-               return false;
-        }
-        //公共方法才允许被调用
-        return $reflection->invokeArgs($class,$args);
-    }
-    $err = 2;
-    return false;
-}
+
 
 //加载基础配置
-Pi::inc(PI_CORE.'Config.inc.php');
+Pi::inc(PI_ROOT.'Config.inc.php');
 
 //加载基础类库
 Pi::inc(PI_CORE.'CoreBase.php');
