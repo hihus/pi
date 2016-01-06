@@ -24,3 +24,9 @@
 		include("pi/core/Pi.php");
 	用pi创建工程:
 		见proj的示例。
+
+#todo
+	1 rpc 优化 （考虑一些长连接是否可以优化及其他）
+	2 添加api，web sign验证 （添加验证参数）
+	3 cache和db __call取代（提高点效率）
+	4 添加类库 （远程异步日志，落地队列）
