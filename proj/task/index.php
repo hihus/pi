@@ -5,7 +5,7 @@ define("__PI_EN_DEBUG",1);
 //必要配置
 define('PI_ROOT',dirname(dirname(dirname(__FILE__))).'/pi/');
 define('PI_APP_ROOT',dirname(dirname(__FILE__)).'/');
-define('COM_ROOT',PI_APP_ROOT.'com/');
+define('PI_COM_ROOT',PI_APP_ROOT.'com/');
 define('PI_APP_NAME','task');
 define('LOG_PATH','/tmp/');
 

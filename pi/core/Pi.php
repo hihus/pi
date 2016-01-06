@@ -4,7 +4,7 @@
  * @author wanghe (hihu@qq.com)
  **/
 if(!defined('PI_ROOT'))  die('you must define the pi root first');
-if(!defined('COM_ROOT')) die('you must define COM_ROOT first~');
+if(!defined('PI_COM_ROOT')) die('you must define PI_COM_ROOT first~');
 
 //工具类
 class Pi {
@@ -189,7 +189,7 @@ class PipeExecutor {
 			}
 			if(!empty($pipes)){
 				//加载管道位置
-				$root = ($root == 'default') ? PI_ROOT : COM_ROOT;
+				$root = ($root == 'default') ? PI_ROOT : PI_COM_ROOT;
 				foreach ($pipes as $k => $cls){
 					$pipes[$cls] = $root.'pipe'.DOT.$cls.'.php';
 					unset($pipes[$k]);
@@ -293,9 +293,9 @@ class PiApp{
 		$this->appId = $this->genAppid();
 		Pi::$appId = $this->appId;
 
-		//对com_root的目录要求
+		//对PI_COM_ROOT的目录要求
 		$com_need_dirs = Pi::get('COM_DIR',array('export','lib','logic','model','conf'));
-		$com_dirs = array_flip(scandir(COM_ROOT));
+		$com_dirs = array_flip(scandir(PI_COM_ROOT));
 		foreach($com_need_dirs as $d){
 			if(!isset($com_dirs[$d])){
 				die('pi.err com root need init the dir: '.$d);

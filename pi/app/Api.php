@@ -60,7 +60,7 @@ class ApiApp extends PiApp {
 		}
 		//内部export调用不需要做异常输出处理. 和ApiRouter.php的output错误输出格式一致
 		if(!defined('USE_INNER_API')){
-			echo json_encode(array('msg'=>$errcode,INNER_ERR=>$code),true);
+			echo json_encode(array('msg'=>$errcode,PI_INNER_ERR=>$code),true);
 		}
 	}
 

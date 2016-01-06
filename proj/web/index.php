@@ -6,7 +6,7 @@ define("__PI_EN_DEBUG",1);
 define('PI_APP_NAME','web');
 define('PI_ROOT',dirname(dirname(dirname(__FILE__))).'/pi/');
 define('PI_APP_ROOT',dirname(dirname(__FILE__)).'/');
-define('COM_ROOT',PI_APP_ROOT.'com/');
+define('PI_COM_ROOT',PI_APP_ROOT.'com/');
 define('APP_CTR_ROOT',PI_APP_ROOT.PI_APP_NAME.'/ctr/');
 define('LOG_PATH','/tmp/');
 

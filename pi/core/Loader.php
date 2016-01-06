@@ -13,15 +13,15 @@ function _pi_autoloader_core($class){
 		$first_dir = strtolower($class[0]);
 		$fileName = array_pop($class);
 		$class = array_map('strtolower',$class);
-		$root = ($first_dir == 'util') ? PI_ROOT : COM_ROOT;
+		$root = ($first_dir == 'util') ? PI_ROOT : PI_COM_ROOT;
 		$file = $root.implode(DOT,$class).DOT.$fileName.'.php';
 		Pi::inc($file);
 	}else{
 		//优先加载工程中的lib,其次加载框架中的util
 		if(is_readable(PI_UTIL.$class.'.php')){
 			Pi::inc(PI_UTIL.$class.'.php');
-		}else if(is_readable(COM_ROOT.'lib/'.$class.'.php')){
-			Pi::inc(COM_ROOT.'lib/'.$class.'.php');
+		}else if(is_readable(PI_COM_ROOT.'lib/'.$class.'.php')){
+			Pi::inc(PI_COM_ROOT.'lib/'.$class.'.php');
 		}
 	}
 }

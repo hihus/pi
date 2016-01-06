@@ -73,7 +73,7 @@ class PiApiRouter {
 			echo json_encode(array('res'=>$info));
 		}else{
 			//和Api.php的output错误输出格式一致
-			echo json_encode(array('msg'=>$info,INNER_ERR=>$err_code));
+			echo json_encode(array('msg'=>$info,PI_INNER_ERR=>$err_code));
 		}
 		exit;
 	}

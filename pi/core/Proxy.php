@@ -72,7 +72,7 @@ class PiProxyServer {
 		if($err_code === false){
 			echo serialize(array(INNER_RES_PACK=>$info));
 		}else{
-			echo serialize(array(INNER_ERR=>$err_code,'msg'=>$info));
+			echo serialize(array(PI_INNER_ERR=>$err_code,'msg'=>$info));
 		}
 		exit;
 	}
@@ -102,7 +102,7 @@ class PiRPC {
 					throw new Exception('curl error',5011);
 				}
 			} catch (Exception $e) {
-				return array(INNER_ERR=>5011,'msg'=>$curl->getErrorMsg());
+				return array(PI_INNER_ERR=>5011,'msg'=>$curl->getErrorMsg());
 			}
 		}
 		throw new Exception('inner api err conf : '.var_export($conf),5004);
