@@ -81,15 +81,18 @@ class PiProxyServer {
 //RPC网络操作
 class PiRPC {
 	public function call($method,$params,$mod,$add,$conf){
-		$sign = Pi::get('global.innerapi_sign','');
-		$sign_name = Pi::get('global.innerapi_sign_name','_pi_inner_nm');
 		if(isset($conf['ip']) && isset($conf['net']) && $conf['net'] == 'http'){
 			$args = array();
 			$args['mod'] = $mod;
 			$args['add'] = $add;
 			$args['method'] = $method;
 			$args['param'] = $params;
+
+			//加密验证
+			$sign_name = Pi::get('global.innerapi_sign_name','_pi_inner_nm');
+			$sign = self::makeSign($mod);
 			$args[$sign_name] = $sign;
+
 			try {
 				$curl = new HttpClient();
 				$timeout = (isset($conf['timeout'])) ? intval($conf['timeout']) : 10;
@@ -106,6 +109,21 @@ class PiRPC {
 			}
 		}
 		throw new Exception('inner api err conf : '.var_export($conf),5004);
+	}
+	static function makeSign($mod){
+		$salt = Pi::get('global.inner_tmp_salt','ks92pi');
+		$num = time();
+		$sign = md5($mod.$salt.$num).'_'.$num;
+		return $sign;
+	}
+	static function checkSign($mod,$sign){
+		$sign = explode('_',$sign);
+		if(!isset($sign[1])) return false;
+		$salt = Pi::get('global.inner_tmp_salt','ks92pi');
+		if($sign[0] == md5($mod.$salt.$sign[1])){
+			return true;
+		}
+		return false;
 	}
 //end of class
 }

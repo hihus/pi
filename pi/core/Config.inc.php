@@ -20,6 +20,9 @@ if(defined('PI_APP_ROOT') && !defined('APP_CONF_PATH')){
 if(!defined('PI_INNER_ERR')) define('PI_INNER_ERR','_pi_inner_err_code');
 if(!defined('INNER_RES_PACK')) define('INNER_RES_PACK','_pi_inner_content');
 
+//通用一次性salt
+Pi::set('global.inner_tmp_salt','ks92pi');
+
 //inner api sign
 Pi::set('global.innerapi_sign','kjsdgiu3kiusdf982o3sdfo034s');
 Pi::set('global.innerapi_sign_name','_pi_inner_nm');

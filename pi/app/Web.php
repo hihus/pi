@@ -46,7 +46,7 @@ class WebApp extends PiApp {
 	function errorHandler(){
 		if(true  === $this->debug){
 			print_r(func_get_args());
-			print_r(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,4));
+			print_r(debug_backtrace());
 			exit;
 		}
 

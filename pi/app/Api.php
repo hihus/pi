@@ -65,9 +65,10 @@ class ApiApp extends PiApp {
 	}
 
 	protected function checkInnerApi(){
-		$sign = Pi::get('global.innerapi_sign','');
 		$sign_name = Pi::get('global.innerapi_sign_name','_pi_inner_nm');
-		if(Comm::req($sign_name) == $sign){
+		$sign = Comm::req($sign_name,null);
+		$mod = Comm::req('mod',null);
+		if(!is_null($sign) && PiRPC::checkSign($mod,$sign)){
 			return true;
 		}
 		return false;
