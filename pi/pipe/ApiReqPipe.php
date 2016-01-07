@@ -11,7 +11,7 @@ class ApiReqPipe implements PiIpipe {
 		$this->app = $app;
 		$this->filterInput();
 	}
-	//对于web,可以对 get post request cookie做一些过滤
+	//线上环境可以在这里对输入进行解密处理
 	public function filterInput(){
 		//Comm::reqFilter();
 	}

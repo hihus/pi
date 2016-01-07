@@ -17,6 +17,7 @@ class ApiHttpRouterPipe implements PiIpipe {
 		if(class_exists($router_class)){
 			$cls = new $router_class($app);
 			$res = $cls->dispatch();
+			//线上环境请处理输出做加密
 			$cls->output($res);
 		}else{
 			throw new Exception('api.router can not find the router class : '.$router_class,1031);
