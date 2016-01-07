@@ -93,7 +93,7 @@ class PiRPC {
 			try {
 				$curl = new HttpClient();
 				$timeout = (isset($conf['timeout'])) ? intval($conf['timeout']) : 10;
-				$res = $curl->sendPostData($conf['ip'],$args,$timeout);
+				$res = $curl->sendPostData($conf['ip'],$args,null,$timeout);
 				if($curl->hasError() === false){
 					$data = unserialize($res);
 					$data = isset($data[INNER_RES_PACK]) ? $data[INNER_RES_PACK] : $data;
