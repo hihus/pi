@@ -65,7 +65,7 @@ class PiApiRouter {
 			$this->output('api.err api class:'.$class.' can not call method:'.$func,1011);
 		}
 		$res = Pi::piCallMethod($cls,$func);
-		$this->output($res);
+		return $res;
 	}
 
 	protected function output($info,$err_code = false){
@@ -77,6 +77,7 @@ class PiApiRouter {
 		}
 		exit;
 	}
+
 	//api 验证逻辑，可以根据项目需要实现
 	private function checkSign(){
 		return true;
