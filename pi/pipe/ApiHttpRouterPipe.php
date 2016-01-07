@@ -17,7 +17,7 @@ class ApiHttpRouterPipe implements PiIpipe {
 		if(class_exists($router_class)){
 			$cls = new $router_class($app);
 			$res = $cls->dispatch();
-			$this->output($res);
+			$cls->output($res);
 		}else{
 			throw new Exception('api.router can not find the router class : '.$router_class,1031);
 		}
