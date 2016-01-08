@@ -45,10 +45,18 @@
 
 	api 运行方式：
 		php proj/api/index.php login/new dologin -> 对应文件 proj/api/logic/login/new/LoginNew.api.php function dologin
+	
 	task 运行方式：
 		php proj/task/index.php login_stat 1231 1234 -> 对应文件 proj/task/logic/login/Stat.php function execute($argv)
+	
 	web 运行方式：
 		www.hihus.com/index/index -> 对应文件 proj/web/ctr/index/IndexCtr.php function index()
+
+	接口使用方式：
+		$login = Pi::com('login'); //根据配置走远程或者本地逻辑
+		$users = $login->dologin($name,$pass,$type);
+		print_r($users);
+
 
 	更详细信息可以阅读源代码
 
