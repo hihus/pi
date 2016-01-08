@@ -77,7 +77,7 @@ class Pi {
 			throw new Exception('picom can not find mod:'.$mod,',add:'.$add,1001);
 		}
 
-		if(!is_readable($file) || !self::inc($file)){
+		if(!self::inc($file)){
 			throw new Exception('can not read mod file: '.$file.' from picom func',1004);
 		}
 
@@ -198,7 +198,7 @@ class PipeExecutor {
 		}
 		foreach($pipes as $cls => $path){
 			if(isset($this->arr_pipe[$cls])) continue;
-			if(is_readable($path) && Pi::inc($path)){
+			if(Pi::inc($path)){
 				if(class_exists($cls)){
 					$this->arr_pipe[$cls] = new $cls();
 				}else{

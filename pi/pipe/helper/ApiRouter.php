@@ -48,7 +48,7 @@ class PiApiRouter {
 		Pi::inc(PI_CORE.'BaseApi.php');		
 
 		$file = $api_path.implode(DOT,$mod).DOT.$class.'.api.php';
-		if(!is_readable($file) || !Pi::inc($file)){
+		if(!Pi::inc($file)){
 			$this->output('api.err api router can not load file:'.$file,1008);
 		}	
 

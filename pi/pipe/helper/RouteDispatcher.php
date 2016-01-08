@@ -168,7 +168,7 @@ class PiRouteDispatcher {
 		$cls = $this->class_pre.$cls."Ctr";
 		$file_path = $this->base_path.$mod_path.$cls.'.php';
 		
-		if(!is_readable($file_path) || !Pi::inc($file_path)){
+		if(!Pi::inc($file_path)){
 			throw new Exception('router.err not found the router file : '.$file_path,1022);
 		}
 

@@ -7,7 +7,7 @@
 class WebRouterPipe implements PiIpipe {
 	public function __construct(){
 		$dispatcher = Pcf::get('global.dispatcher_path',PIPE_HELPER.'RouteDispatcher.php');
-		if(!is_readable($dispatcher) || !Pi::inc($dispatcher)){
+		if(!Pi::inc($dispatcher)){
 			throw new Exception('can not find the dispatcher config : global.dispatcher_path',1032);
 		}
 	}
