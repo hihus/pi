@@ -24,7 +24,7 @@ class PiProxy {
 			$rpc = new PiRPC();
 			return $rpc->call($method,$args,$this->mod,$this->add,$conf);
 		}else{
-			Pi::pi_load_export_file($this->mod,$this->add);
+			$this->instance = Pi::pi_load_export_file($this->mod,$this->add);
 			if (!is_callable(array($this->instance,$method))){
 				throw new Exception("proxy.err $mod $add no method $method",5009);
 			}
