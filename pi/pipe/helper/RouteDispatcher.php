@@ -33,6 +33,11 @@ class PiRouteDispatcher {
 
 	public function buildQuery(){
 		$this->host = strtolower(Comm::getHost());
+		//如果域名是ip,搜索ip对应的配置
+		$host_ips = Pcf::get('global.host_ip');
+		if(!empty($host_ips) && isset($host_ips[$this->host])){
+			$this->host = $host_ips[$this->host];
+		}
 		$this->uri = strtolower(Comm::getServer('PATH_INFO'));
 	}
 	
