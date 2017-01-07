@@ -253,8 +253,8 @@ class PiApp{
 	public function appInit(){
 		$this->comInit();
 		$this->begin();
-		$this->initEnv();
 		$this->initPhpEnv();
+		$this->initEnv();
 		$this->initLogger();
 		$this->initTimer();
 		$this->initPipes();
