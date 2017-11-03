@@ -17,8 +17,8 @@ class TaskApp extends PiApp {
 		define('TASK_PATH',PI_APP_ROOT.PI_APP_NAME.DOT.'logic'.DOT);
 
 		$this->mode = 'task';
-		$this->app_env = Pi::get('app_env','');
-		$this->com_env = Pi::get('com_env','');
+		$this->app_env = pi::get('app_env','');
+		$this->com_env = pi::get('com_env','');
 		//得到参数
 		if(!empty($argv)){
 			array_shift($argv);
@@ -37,14 +37,14 @@ class TaskApp extends PiApp {
 
 	protected function initLogger(){
 		//获得log path
-		if(!defined("LOG_PATH")) define("LOG_PATH",Pi::get('log.path',''));
+		if(!defined("LOG_PATH")) define("LOG_PATH",pi::get('log.path',''));
 		if(!is_dir(LOG_PATH)) die('pi.err can not find the log path');
 
-        Pi::inc(Pi::get('LogLib'));
+        pi::inc(pi::get('LogLib'));
 
 		$logFile = $this->task_name;
-        $logLevel = ($this->debug === true) ? Logger::LOG_DEBUG : Pi::get('log.level',Logger::LOG_TRACE);
-		$roll = Pi::get('log.roll',Logger::DAY_ROLLING);
+        $logLevel = ($this->debug === true) ? Logger::LOG_DEBUG : pi::get('log.level',Logger::LOG_TRACE);
+		$roll = pi::get('log.roll',Logger::DAY_ROLLING);
 		$basic = array('logid'=>$this->appId);
 
 		Logger::init(LOG_PATH,$logFile,$logLevel,array(),$roll);

@@ -4,7 +4,7 @@
  * @author wanghe (hihu@qq.com)
  **/
 
-Pi::inc(dirname(__FILE__).DOT.'PiCacheAbstract.php');
+pi::inc(dirname(__FILE__).DOT.'PiCacheAbstract.php');
 class PiMc {
     private static $instance = array();
     
@@ -25,7 +25,7 @@ class PiMc {
     }
 
     public static function getConfig($name){
-        $conf = Pi::get('cache.'.$name,array());
+        $conf = pi::get('cache.'.$name,array());
         if(empty($conf)) return null;
         foreach($conf as $server){
             if(!isset($server['host']) || !isset($server['port']) ||

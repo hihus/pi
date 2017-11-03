@@ -5,7 +5,7 @@
  **/
 
 //实现框架自己的db功能
-Pi::inc(dirname(__FILE__).DOT.'db'.DOT.'Medoo.php');
+pi::inc(dirname(__FILE__).DOT.'db'.DOT.'Medoo.php');
 
 class PiDb {
 	private static $instance = null;
@@ -29,7 +29,7 @@ class PiDb {
 	}
 	//解析配置文件
 	private static function getConfig($name){
-		$c = Pi::get('db.'.$name,null);
+		$c = pi::get('db.'.$name,null);
 		$conf = array();
 		if(empty($c) || !is_array($c)) return null;
 		//允许只有从库的情况

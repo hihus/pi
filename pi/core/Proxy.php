@@ -1,7 +1,8 @@
 <?php
 /**
  * @file Proxy.php
- * @author wanghe (hihu@qq.com)
+ * @author hihu (hihu@qq.com)
+ * 远程调用需要util下的HttpClient,最小框架需要注意
  **/
 
 class PiProxy {
@@ -24,7 +25,7 @@ class PiProxy {
 			$rpc = new PiRPC();
 			return $rpc->call($method,$args,$this->mod,$this->add,$conf);
 		}else{
-			$this->instance = Pi::pi_load_export_file($this->mod,$this->add);
+			$this->instance = pi::LoadServiceFile($this->mod,$this->add);
 			if (!is_callable(array($this->instance,$method))){
 				throw new Exception("proxy.err $mod $add no method $method",5009);
 			}
@@ -50,7 +51,7 @@ class PiProxyServer {
 		$method = Comm::req('method');
 		$args = Comm::req('param',array());
 		try {
-			$class = Pi::com($mod,$add,true);
+			$class = pi::com($mod,$add,true);
 			if(is_callable(array($class,$method))){
 	            $reflection = new ReflectionMethod($class,$method);
 	            $argnum = $reflection->getNumberOfParameters();
@@ -89,7 +90,7 @@ class PiRPC {
 			$args['param'] = $params;
 
 			//加密验证
-			$sign_name = Pi::get('global.innerapi_sign_name','_pi_inner_nm');
+			$sign_name = pi::get('global.innerapi_sign_name','_pi_inner_nm');
 			$sign = self::makeSign($mod);
 			$args[$sign_name] = $sign;
 
@@ -111,7 +112,7 @@ class PiRPC {
 		throw new Exception('inner api err conf : '.var_export($conf),5004);
 	}
 	static function makeSign($mod){
-		$salt = Pi::get('global.inner_tmp_salt','ks92pi');
+		$salt = pi::get('global.inner_tmp_salt','ks92pi');
 		$num = time();
 		$sign = md5($mod.$salt.$num).'_'.$num;
 		return $sign;
@@ -119,7 +120,7 @@ class PiRPC {
 	static function checkSign($mod,$sign){
 		$sign = explode('_',$sign);
 		if(!isset($sign[1])) return false;
-		$salt = Pi::get('global.inner_tmp_salt','ks92pi');
+		$salt = pi::get('global.inner_tmp_salt','ks92pi');
 		if($sign[0] == md5($mod.$salt.$sign[1])){
 			return true;
 		}

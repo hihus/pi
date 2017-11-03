@@ -1,7 +1,7 @@
 <?php
 /**
  * @file Loader.php
- * @author wanghe (hihu@qq.com)
+ * @author hihu (hihu@qq.com)
  **/
 
 //自动加载,有下划线的类按照下划线目录加载，没有下划线的去util和lib一级目录加载
@@ -15,15 +15,16 @@ function _pi_autoloader_core($class){
 		$class = array_map('strtolower',$class);
 		$root = ($first_dir == 'util') ? PI_ROOT : PI_COM_ROOT;
 		$file = $root.implode(DOT,$class).DOT.$fileName.'.php';
-		Pi::inc($file);
+		pi::inc($file);
 	}else{
 		//优先加载工程中的lib,其次加载框架中的util
 		if(is_readable(PI_UTIL.$class.'.php')){
-			Pi::inc(PI_UTIL.$class.'.php');
+			pi::inc(PI_UTIL.$class.'.php');
 		}else if(is_readable(PI_COM_ROOT.'lib/'.$class.'.php')){
-			Pi::inc(PI_COM_ROOT.'lib/'.$class.'.php');
+			pi::inc(PI_COM_ROOT.'lib/'.$class.'.php');
 		}
 	}
+	return false;
 }
 
 //注册自动加载函数

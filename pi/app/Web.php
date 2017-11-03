@@ -15,8 +15,8 @@ class WebApp extends PiApp {
 			die('please define PI_APP_NAME const');
 		}
 		$this->mode = 'web';
-		$this->app_env = Pi::get('app_env','');
-		$this->com_env = Pi::get('com_env','');
+		$this->app_env = pi::get('app_env','');
+		$this->com_env = pi::get('com_env','');
 		parent::__construct();
 	}
 
@@ -34,7 +34,7 @@ class WebApp extends PiApp {
 	protected function initTemplate(){
 		$views = Pcf::get('global.view_lib_path');
 		$views = PI_UTIL.$views;
-		if(!Pi::inc($views)){
+		if(!pi::inc($views)){
 			die('can not find the web view libs ');
 		}
 		$cls = Pcf::get('global.view_engine');
@@ -85,7 +85,7 @@ class WebApp extends PiApp {
 	public function run(){
 		//初始化pipe
 		$default_pipe = array('WebReqPipe'=>'default','WebRouterPipe'=>'default');
-		$pipes = Pi::get('global.pipes',array());
+		$pipes = pi::get('global.pipes',array());
 		if(empty($pipes)){
 			$pipes = $default_pipe;
 		}

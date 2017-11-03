@@ -93,7 +93,7 @@ class Image {
 			elseif(!$isfileBlob) {
 				//检查图片是否正确
 				if(!$this->isImageFile($image)){
-					throw new Exception("GPS.u_arg $image is not a Image File or image format is not ".print_r(Pi::get('support_formats'),true));
+					throw new Exception("GPS.u_arg $image is not a Image File or image format is not ".print_r(pi::get('support_formats'),true));
 
 				}
 				$this->imagick=new Imagick($image);
@@ -108,7 +108,7 @@ class Image {
 		}
 		//判断传入图片的格式和大小
 		$this->isAvailableFormat($this->imagick->getImageFormat());
-		$uploadParams=Pi::get('upload_params');
+		$uploadParams=pi::get('upload_params');
 		if($this->imagick->getImageLength()>$uploadParams['max_length'] ){
 			throw new Exception("GPS.u_arg sorry, this image length=". $this->imagick->getImageLength()." is not suportted by GPS right now!");
 		}
@@ -434,7 +434,7 @@ class Image {
 				$$param=$defaultValue;
 			}
 		}
-		$compress_format=Pi::get('compress_format');
+		$compress_format=pi::get('compress_format');
 		$compression=strtolower($compression);
 		if(!in_array($compression,array_keys($compress_format))){
 			throw new Exception("GPS.u_arg the type $compression is not support in".print_r($compress_format,true));
@@ -561,7 +561,7 @@ class Image {
 	 * @return void
 	 */
 	private function isAvailableFormat($format){
-		if(!empty($format)&&in_array(strtolower($format),Pi::get('support_formats'))) 
+		if(!empty($format)&&in_array(strtolower($format),pi::get('support_formats'))) 
 		{
 			return true;
 		}
@@ -580,7 +580,7 @@ class Image {
 		if(file_exists($input)){
 			$pathInfo=pathinfo($input);
 			$fileExtension=$pathInfo["extension"];
-			if(in_array(strtolower($fileExtension),Pi::get('support_formats'))){
+			if(in_array(strtolower($fileExtension),pi::get('support_formats'))){
 				return true;
 			}
 		}

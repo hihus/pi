@@ -1,5 +1,5 @@
 <?php
-Pi::inc(dirname(__FILE__).DOT.'PiCacheAbstract.php');
+pi::inc(dirname(__FILE__).DOT.'PiCacheAbstract.php');
 
 class PiRs extends PiCacheAbstract {
     public $options = array(

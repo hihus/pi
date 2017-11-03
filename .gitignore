@@ -4,3 +4,4 @@ logs/*
 ._.DS_Store
 views_c/*
 views_c
+vendor

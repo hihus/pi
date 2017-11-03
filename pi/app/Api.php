@@ -18,8 +18,8 @@ class ApiApp extends PiApp {
 		}
 		
 		$this->mode = 'api';
-		$this->app_env = Pi::get('app_env','');
-		$this->com_env = Pi::get('com_env','');
+		$this->app_env = pi::get('app_env','');
+		$this->com_env = pi::get('com_env','');
 		$data_type = Pcf::get("global.data_type",'json');
 		
 		if(isset($this->data_types[$data_type])){
@@ -65,7 +65,7 @@ class ApiApp extends PiApp {
 	}
 
 	protected function checkInnerApi(){
-		$sign_name = Pi::get('global.innerapi_sign_name','_pi_inner_nm');
+		$sign_name = pi::get('global.innerapi_sign_name','_pi_inner_nm');
 		$sign = Comm::req($sign_name,null);
 		$mod = Comm::req('mod',null);
 		if(!is_null($sign) && PiRPC::checkSign($mod,$sign)){
@@ -80,12 +80,12 @@ class ApiApp extends PiApp {
 			//如果有其他调试输出忽略
 			ob_start();
 			define("USE_INNER_API",1);
-			Pi::inc(PI_CORE.'Proxy.php');
+			pi::inc(PI_CORE.'Proxy.php');
 			PiProxyServer::Server();
 		}else{
 			//初始化pipe
 			$default_pipe = array('ApiReqPipe'=>'default','ApiHttpRouterPipe'=>'default');
-			$pipes = Pi::get('global.pipes',array());
+			$pipes = pi::get('global.pipes',array());
 			if(empty($pipes)){
 				$pipes = $default_pipe;
 			}

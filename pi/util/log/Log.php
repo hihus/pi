@@ -6,7 +6,7 @@ if (!function_exists('posix_getpid')) {
 	}
 }
 
-Pi::inc(dirname(__FILE__).'/Logger.php');
+pi::inc(dirname(__FILE__).'/Logger.php');
 
 final class PiLog {
 	//日志缓冲
