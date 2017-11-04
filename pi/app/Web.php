@@ -1,10 +1,10 @@
 <?php
 /**
  * @file Web.php
- * @author wanghe (hihu@qq.com)
+ * @author hihu (hihu@qq.com)
  **/
 
-include(PI_ROOT.'core/Pi.php');
+include(PI_ROOT.'app/base/App.php');
 
 class WebApp extends PiApp {
 	public function __construct(){

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file Memcache.php
- * @author wanghe (hihu@qq.com)
+ * @author hihu (hihu@qq.com)
  **/
 
 pi::inc(dirname(__FILE__).DOT.'PiCacheAbstract.php');

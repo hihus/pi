@@ -77,11 +77,11 @@ class pi {
 			$cls = ucfirst($mod).ucfirst($add).'Service';
 			$file = SERVICE_ROOT.$mod.DOT.$cls.'.php';
 		}else{
-			throw new Exception('picom can not find mod:'.$mod,',add:'.$add,1001);
+			throw new Exception('pi can not find mod:'.$mod,',add:'.$add,1001);
 		}
 
 		if(!self::inc($file)){
-			throw new Exception('can not read mod file: '.$file.' from picom func',1004);
+			throw new Exception('pi can not read mod file: '.$file.' from picom func',1004);
 		}
 
 		if(class_exists($cls)){
@@ -92,7 +92,7 @@ class pi {
 			$class->service_name = $cls;
 			return $class;
 		}else{
-			throw new Exception('can not find picom class '.$cls.' from '.$file,1003);
+			throw new Exception('pi can not find picom class '.$cls.' from '.$file,1003);
 		}
 	}
 	//得到配置,配置加载请自定义COM_CONF_PATH目录
@@ -207,7 +207,7 @@ class PipeExecutor {
 			}
 			if(!empty($pipes)){
 				//加载管道位置
-				$root = ($root == 'default') ? PI_ROOT : PI_COM_ROOT;
+				$root = ($root == 'default') ? PI_ROOT.'app'.DOT : PI_COM_ROOT;
 				foreach ($pipes as $k => $cls){
 					$pipes[$cls] = $root.'pipe'.DOT.$cls.'.php';
 					unset($pipes[$k]);

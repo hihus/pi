@@ -1,7 +1,7 @@
 <?php
 /**
  * @file InputPipe.php
- * @author wanghe (hihu@qq.com)
+ * @author hihu (hihu@qq.com)
  **/
 
 class InputPipe implements PiIpipe {

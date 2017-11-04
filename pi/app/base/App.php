@@ -1,8 +1,13 @@
 <?php
-//用pi框架的app基类
+/**
+ * 用pi框架的app基类
+ * @author hihu (hihu@qq.com)
+ **/
+
 class PiApp{
 	public $debug = false;  //true false
 	public $appId = 0;
+	public $version = '1_0' //exp: 1_0 2_0 3_1
 	public $mode = null;    //exp: web task api com
 	public $app_env = '';     //exp: dev test pre online
 	public $com_env = '';     //exp: dev test pre online
@@ -12,31 +17,33 @@ class PiApp{
 	public $status = 'ok';
 
 	public function __construct(){
-		if(!defined('PI_APP_ROOT')){
-			$this->comInit();
-		}else{
-			$this->appInit();
-		}
+		$this->piInit();
+		$this->appInit();
 	}
 
-	public function comInit(){
-		$this->initLoader();
-		$this->initProxy();
+	public function piInit(){
 		$this->checkConfig();
-		$this->initDb();
-		$this->initCache();
+		pi::inc(PI_ROOT.'core/pi.php');
 	}
 
 	public function appInit(){
-		$this->comInit();
+		$this->piInit();
 		$this->begin();
+		$this->initConst();
 		$this->initPhpEnv();
-		$this->initEnv();
+		$this->initDb();
+		$this->initCache();
 		$this->initLogger();
+		$this->initEnv();
 		$this->initTimer();
 		$this->initPipes();
 	}
-
+	public function setVersion($version){
+		$this->version = $version;
+	}
+	public function getVersion(){
+		return $this->version;
+	} 
 	//运行开始，执行流程
 	public function run(){
 		if(!empty($this->pipeLoadContainer)){
@@ -50,7 +57,10 @@ class PiApp{
 			}
 		}
 	}
-
+	protected function initConst(){
+		define("PIPE_HELPER",PI_ROOT.'app'.DOT.'pipe'.DOT.'helper'.DOT);
+		define("ADD_PIPE_HELPER",PI_COM_ROOT.'pipe'.DOT.'helper'.DOT);
+	}
 	protected function initEnv(){
 		//设置是否开启调试,线上环境不要开启
 		if(defined('__PI_EN_DEBUG')){
@@ -79,7 +89,24 @@ class PiApp{
 			}
 		}
 	}
-
+	protected function initLogger(){
+		//获得log path
+		if(!defined("LOG_PATH")) define("LOG_PATH",pi::get('log.path',''));
+		if(!is_dir(LOG_PATH)){
+			die('pi.err can not find the log path');
+		}
+		if(!pi::inc(pi::get('LogLib'))){
+			die('pi.err can not read the Log Lib');
+		}
+		$logFile = pi::get('global.logFile','pi');
+		$logSeg = pi::get('global.logSeg',Logger::NONE_ROLLING);
+        $logLevel = ($this->debug === true) ? Logger::LOG_DEBUG : pi::get('log.level',Logger::LOG_TRACE);
+		$roll = pi::get('log.roll',Logger::NONE_ROLLING);
+		$basic = array('logid'=>$this->appId);
+		Logger::init(LOG_PATH,$logFile,$logLevel,array(),$roll);
+		Logger::addBasic($basic);
+	}
+	
 	protected function initTimer(){
 		$this->timer = new EXTimer();
 	}
@@ -156,14 +183,6 @@ class PiApp{
 		$this->pipe = new PipeExecutor($this);
 	}
 
-	protected function initLoader(){
-		pi::inc(PI_CORE.'Loader.php');
-	}
-	
-	protected function initProxy(){
-		pi::inc(PI_CORE.'Proxy.php');
-	}
-	
 	protected function checkConfig(){
 		if(!is_dir(COM_CONF_PATH)){
 			die('can not find the com config path:'.COM_CONF_PATH);
@@ -195,5 +214,5 @@ class PiApp{
 
 //如果是嵌入式的方式调用框架，实例化全局变量
 if(!defined('PI_APP_ROOT')){
-	$_G_PI_INC = new Piapp();
+	$_G_PI_INC = new PiApp();
 }

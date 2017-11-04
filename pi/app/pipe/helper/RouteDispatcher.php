@@ -1,7 +1,7 @@
 <?php
 /**
  * @file RouteDispatcher.php
- * @author wanghe (hihu@qq.com)
+ * @author hihu (hihu@qq.com)
  **/
 
 //web路由器v2版

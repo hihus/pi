@@ -1,10 +1,12 @@
 <?php
 /**
  * @file Api.php
- * @author wanghe (hihu@qq.com)
+ * @author hihu (hihu@qq.com)
  **/
 
-include(PI_ROOT.'core/Pi.php');
+include(PI_ROOT.'app/base/App.php');
+
+class PiBaseApi {}
 
 class ApiApp extends PiApp {
 
@@ -42,8 +44,8 @@ class ApiApp extends PiApp {
 	}
 
 	protected function initHttp(){
-		//初始化session,php>5.4 换成 if(session_status() !== PHP_SESSION_ACTIVE) {session_start();}
-		if(!isset($_SESSION)) {session_start();}
+		if(session_status() !== PHP_SESSION_ACTIVE) {session_start();}
+		//if(!isset($_SESSION)) {session_start();}
 	}
 
 	function exceptionHandler($ex){

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file TaskProcessPipe.php
- * @author wanghe (hihu@qq.com)
+ * @author hihu (hihu@qq.com)
  **/
 
 class TaskProcessPipe implements PiIpipe {

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file ApiHttpRouterPipe.php
- * @author wanghe (hihu@qq.com)
+ * @author hihu (hihu@qq.com)
  **/
 
 class ApiHttpRouterPipe implements PiIpipe {

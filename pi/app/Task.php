@@ -1,10 +1,10 @@
 <?php
 /**
  * @file Task.php
- * @author wanghe (hihu@qq.com)
+ * @author hihu (hihu@qq.com)
  **/
 
-include(PI_ROOT.'core/Pi.php');
+include(PI_ROOT.'app/base/App.php');
 
 class TaskApp extends PiApp {
 	public $task_name = '';

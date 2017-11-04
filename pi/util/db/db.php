@@ -1,7 +1,7 @@
 <?php
 /**
  * @file db.php
- * @author wanghe (hihu@qq.com)
+ * @author hihu (hihu@qq.com)
  **/
 
 //实现框架自己的db功能
