@@ -7,7 +7,7 @@
 class PiApp{
 	public $debug = false;  //true false
 	public $appId = 0;
-	public $version = '1_0' //exp: 1_0 2_0 3_1
+	public $version = '1_0'; //exp: 1_0 2_0 3_1
 	public $mode = null;    //exp: web task api com
 	public $app_env = '';     //exp: dev test pre online
 	public $com_env = '';     //exp: dev test pre online
