@@ -15,7 +15,7 @@ class PiDb {
 		}
 		$conf = self::getConfig($name);
 		if($conf == null){
-			throw new Exception("check your db config fordabase :".$name, 6001);
+			throw new Exception("check your db config for dabase :".$name, 6001);
 		}
 		if(!isset(self::$instance[$name])){
 			self::$instance[$name] = new InnerPiDb($conf);

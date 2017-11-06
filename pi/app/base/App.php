@@ -3,7 +3,7 @@
  * 用pi框架的app基类
  * @author hihu (hihu@qq.com)
  **/
-
+include(PI_ROOT.'core/Pi.php');
 class PiApp{
 	public $debug = false;  //true false
 	public $appId = 0;
@@ -23,7 +23,6 @@ class PiApp{
 
 	public function piInit(){
 		$this->checkConfig();
-		pi::inc(PI_ROOT.'core/pi.php');
 	}
 
 	public function appInit(){
@@ -95,7 +94,7 @@ class PiApp{
 		if(!is_dir(LOG_PATH)){
 			die('pi.err can not find the log path');
 		}
-		if(!pi::inc(pi::get('LogLib'))){
+		if(!pi::inc(pi::get('LogLib',PI_UTIL.'log/Log.php'))){
 			die('pi.err can not read the Log Lib');
 		}
 		$logFile = pi::get('global.logFile','pi');
@@ -190,7 +189,7 @@ class PiApp{
 	}
 	
 	protected function initDb(){
-		$db_lib = pi::get('DbLib');
+		$db_lib = pi::get('DbLib',PI_UTIL.'db/db.php');
 		pi::inc($db_lib);
 	}
 
@@ -198,10 +197,10 @@ class PiApp{
 		$is_enable_memcache = pi::get('global.enable_memcache',true);
 		$is_enable_redis = pi::get('global.enable_redis',true);
 		if($is_enable_memcache){
-			pi::inc(pi::get('MemcacheLib'));
+			pi::inc(pi::get('MemcacheLib',PI_UTIL.'cache/Memcache.php'));
 		}
 		if($is_enable_redis){
-			pi::inc(pi::get('RedisLib'));
+			pi::inc(pi::get('RedisLib',PI_UTIL.'cache/Redis.php'));
 		}
 	}
 	

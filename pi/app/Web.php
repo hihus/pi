@@ -61,7 +61,6 @@ class WebApp extends PiApp {
 			echo '<br><br>';
 			exit;
 		}
-
 		parent::exceptionHandler($ex);
 		self::page_4xx();
 	}

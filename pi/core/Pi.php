@@ -120,7 +120,32 @@ class pi {
 		}
 		return $default;
 	}
+	//model类初始化统一方法
+	static function mod($db,$mod,$is_re_new = false){
+		//加载一次，如果不传递is_re_new;
+		static $loaded_mod = array();
+		$db = strtolower($db);
+		$mod = ucfirst(strtolower($mod));
+		$mod_path = pi::get('global.mod_path',PI_COM_ROOT.'model/');
+		$mod_suffix = pi::get('global.mod_suffix','.mod.php');
+		$mod_class_suffix = pi::get('global.mod_class_suffix','Mod');
+		$mod_class_file = $mod_path.$db.DOT.$mod.$mod_suffix;
+		if(isset($loaded_mod[$db.$mod]) && $is_re_new == false){
+			return $loaded_mod[$db.$mod];
+		}
 
+		if(is_readable($mod_class_file)){
+			pi::inc($mod_class_file);
+			$cls = $mod.$mod_class_suffix;
+			$cls = new $cls();
+			if(!isset($loaded_mod[$db.$mod]) && !$is_re_new){
+				$loaded_mod[$db.$mod] = $cls;
+			}
+			return $cls;
+		}else{
+			return null;
+		}
+	}
 	static function set($key,$value){self::$saConfData[$key] = $value; }
 	static function has($key){return isset(self::$saConfData[$key]); }
 	static function clear(){self::$saIsLoaded = array(); self::$saConfData = array(); }

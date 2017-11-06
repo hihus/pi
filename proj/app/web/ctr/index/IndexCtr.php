@@ -3,7 +3,6 @@
 class IndexCtr extends PiPageCtr {
 
 	public function index(){
-		
 		//$this->jump('/login',true);
 		echo "<br>";
 		echo "in index";

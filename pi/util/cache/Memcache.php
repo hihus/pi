@@ -42,7 +42,7 @@ class PiMc {
 
 class MemInner extends PiCacheAbstract{
     public $cache_type = 'memcache'; // memcache 和 memcached
-    public function __construct($conf,$type = 'memcache'){
+    public function __construct($conf,$type = 'memcached'){
         if(!is_array($conf) || empty($conf)){
             return null;
         }
