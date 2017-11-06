@@ -75,7 +75,7 @@ class WebApp extends PiApp {
 
 	//webserver 配置html访问不走框架
 	function page_5xx(){
-		echo '<br><br>500<br><br>';
+		echo '<br><br>错误了!!<br><br>';
 		exit;
 		// $url = Pcf::get('global.404',PI_APP_ROOT.PI_APP_NAME.'/5xx.html');
 		// Comm::jump($url);

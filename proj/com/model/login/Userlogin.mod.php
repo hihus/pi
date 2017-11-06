@@ -1,5 +1,5 @@
 <?php
-
+//login库userlogin表逻辑
 class UserloginMod {
 	function doLogin(){
 		

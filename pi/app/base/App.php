@@ -90,7 +90,7 @@ class PiApp{
 	}
 	protected function initLogger(){
 		//获得log path
-		if(!defined("LOG_PATH")) define("LOG_PATH",pi::get('log.path',''));
+		if(!defined("LOG_PATH")) define("LOG_PATH",pi::get('log.path','/tmp/'));
 		if(!is_dir(LOG_PATH)){
 			die('pi.err can not find the log path');
 		}
@@ -102,7 +102,7 @@ class PiApp{
         $logLevel = ($this->debug === true) ? Logger::LOG_DEBUG : pi::get('log.level',Logger::LOG_TRACE);
 		$roll = pi::get('log.roll',Logger::NONE_ROLLING);
 		$basic = array('logid'=>$this->appId);
-		Logger::init(LOG_PATH,$logFile,$logLevel,array(),$roll);
+		Logger::init(LOG_PATH,$logFile,$logLevel,array(),$roll,true);
 		Logger::addBasic($basic);
 	}
 	
@@ -126,18 +126,20 @@ class PiApp{
 		restore_error_handler();
 		$error = func_get_args();
 		$res = false;
-		if (!($error[0] & error_reporting())) {
-			Logger::debug('error info, errno:%d,errmsg:%s,file:%s,line:%d',$error[0],$error[1],$error[2],$error[3]);
-		} elseif ($error[0] === E_USER_NOTICE) {
-			Logger::trace('error trace, errno:%d,errmsg:%s,file:%s,line:%d',$error[0],$error[1],$error[2],$error[3]);
-		} elseif ($error[0] === E_USER_WARNING) {
-			Logger::warning('error warning, errno:%d,errmsg:%s,file:%s,line:%d',$error[0],$error[1],$error[2],$error[3]);
-		} elseif ($error[0] === E_USER_ERROR) {
-			Logger::fatal('error error, errno:%d,errmsg:%s,file:%s,line:%d',$error[0],$error[1],$error[2],$error[3]);
-		} else {
-			Logger::fatal('error error, errno:%d,errmsg:%s,file:%s,line:%d',$error[0],$error[1],$error[2],$error[3]);
-			$this->status = 'error';
-			$res = true;
+		if(!empty($error)){
+			if (!($error[0] & error_reporting())) {
+				Logger::debug('error info, errno:%d,errmsg:%s,file:%s,line:%d',$error[0],$error[1],$error[2],$error[3]);
+			} elseif ($error[0] === E_USER_NOTICE) {
+				Logger::trace('error trace, errno:%d,errmsg:%s,file:%s,line:%d',$error[0],$error[1],$error[2],$error[3]);
+			} elseif ($error[0] === E_USER_WARNING) {
+				Logger::warning('error warning, errno:%d,errmsg:%s,file:%s,line:%d',$error[0],$error[1],$error[2],$error[3]);
+			} elseif ($error[0] === E_USER_ERROR) {
+				Logger::fatal('error error, errno:%d,errmsg:%s,file:%s,line:%d',$error[0],$error[1],$error[2],$error[3]);
+			} else {
+				Logger::fatal('error error, errno:%d,errmsg:%s,file:%s,line:%d',$error[0],$error[1],$error[2],$error[3]);
+				$this->status = 'error';
+				$res = true;
+			}
 		}
 		set_error_handler(array($this,'errorHandler'));
 		return $res;
@@ -147,12 +149,10 @@ class PiApp{
 		restore_exception_handler();
 		$errcode = $ex->getMessage();
 		$code = $ex->getCode();
-		if($this->needToLog($code)){
-			$errmsg = sprintf('<< exception:%s, errcode:%s, trace: %s >>',$code,$errcode,$ex->__toString());
-			if (($pos = strpos($errcode,' '))) {
-				$errcode = substr($errcode,0,$pos); 
-			}
-			$this->status = $errcode;
+		if($code == 0 || $this->needToLog($code)){
+			$trace = explode('#0',$ex->__toString());
+			$trace = isset($trace[0]) ? $trace[0] : '';
+			$errmsg = sprintf('<< exception:%s, errcode:%s, trace: %s >>',$code,$errcode,$trace);
 			Logger::fatal($errmsg);
 		}
 	}

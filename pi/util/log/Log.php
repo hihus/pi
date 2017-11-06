@@ -153,8 +153,7 @@ final class PiLog {
 
 		$micro = microtime();
 		$sec = intval(substr($micro, strpos($micro," ")));
-		$ms = floor($micro*1000000);
-		$str = sprintf( "%s: %s.%-06d: %s * %d %s", self::$LOG_NAME[$type], date("Y-m-d H:i:s",$sec), $ms, $this->log_name, posix_getpid(), $line_no);
+		$str = sprintf( "%s: %s.%-06d: %s * %d %s", self::$LOG_NAME[$type], date("Y-m-d H:i:s",$sec), 0, $this->log_name, posix_getpid(), $line_no);
 		/* add monitor tag?	*/	
 		if ($type==Logger::LOG_FATAL) {
 			$str .= self::MONTIR_STR;

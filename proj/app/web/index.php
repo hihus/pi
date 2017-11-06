@@ -1,7 +1,7 @@
 <?php
 //酌情去掉的配置
 define('TIMEZONE','Asia/Shanghai');
-define("__PI_EN_DEBUG",1);
+//define("__PI_EN_DEBUG",1);
 //必要配置
 define('PI_APP_NAME','web');
 define('PI_ROOT',dirname(dirname(dirname(dirname(__FILE__)))).'/pi/');
